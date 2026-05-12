@@ -13,7 +13,7 @@ spring:
         - id: bytebank-accounts
           uri: lb://bytebank-accounts
           predicates:
-            - Path=/api/v2/accounts/**
+            - Path=/api/v1/accounts/**
 
         - id: bytebank-customer
           uri: lb://bytebank-customer
@@ -23,7 +23,7 @@ spring:
         - id: bytebank-transactions
           uri: lb://bytebank-transactions
           predicates:
-            - Path=/api/v2/transactions/**
+            - Path=/api/v1/transactions/**
 
 eureka:
   client:
