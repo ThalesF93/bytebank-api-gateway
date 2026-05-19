@@ -27,6 +27,11 @@ spring:
           predicates:
             - Path=/api/v1/transactions/**
 
+        - id: bytebank-notification
+          uri: lb://bytebank-notification
+          predicates:
+            - Path=/api/v1/notifications/**
+
         - id: bytebank-accounts-docs
           uri: lb://bytebank-accounts
           predicates:
@@ -75,9 +80,16 @@ management:
       endpoint: http://zipkin:9411/api/v2/spans
 
 springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
   swagger-ui:
+    enabled: true
     path: /swagger-ui.html
+    config-url: /v3/api-docs/swagger-config
     urls:
+      - name: API Gateway
+        url: /v3/api-docs
       - name: Accounts Service
         url: /bytebank-accounts/v3/api-docs
       - name: Customer Service
