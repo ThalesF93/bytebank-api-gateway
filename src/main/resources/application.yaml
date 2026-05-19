@@ -4,11 +4,13 @@ server:
 spring:
   application:
     name: api-gateway
+
   cloud:
     gateway:
       discovery:
         locator:
           enabled: true
+
       routes:
         - id: bytebank-accounts
           uri: lb://bytebank-accounts
@@ -25,12 +27,41 @@ spring:
           predicates:
             - Path=/api/v1/transactions/**
 
+        - id: bytebank-accounts-docs
+          uri: lb://bytebank-accounts
+          predicates:
+            - Path=/bytebank-accounts/v3/api-docs
+          filters:
+            - RewritePath=/bytebank-accounts/v3/api-docs, /v3/api-docs
+
+        - id: bytebank-customer-docs
+          uri: lb://bytebank-customer
+          predicates:
+            - Path=/bytebank-customer/v3/api-docs
+          filters:
+            - RewritePath=/bytebank-customer/v3/api-docs, /v3/api-docs
+
+        - id: bytebank-transactions-docs
+          uri: lb://bytebank-transactions
+          predicates:
+            - Path=/bytebank-transactions/v3/api-docs
+          filters:
+            - RewritePath=/bytebank-transactions/v3/api-docs, /v3/api-docs
+
+        - id: bytebank-notification-docs
+          uri: lb://bytebank-notification
+          predicates:
+            - Path=/bytebank-notification/v3/api-docs
+          filters:
+            - RewritePath=/bytebank-notification/v3/api-docs, /v3/api-docs
+
 eureka:
   client:
     service-url:
       defaultZone: http://eureka-server:8761/eureka/
   instance:
     prefer-ip-address: true
+
 management:
   endpoints:
     web:
@@ -42,3 +73,16 @@ management:
   zipkin:
     tracing:
       endpoint: http://zipkin:9411/api/v2/spans
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    urls:
+      - name: Accounts Service
+        url: /bytebank-accounts/v3/api-docs
+      - name: Customer Service
+        url: /bytebank-customer/v3/api-docs
+      - name: Transactions Service
+        url: /bytebank-transactions/v3/api-docs
+      - name: Notification Service
+        url: /bytebank-notification/v3/api-docs
