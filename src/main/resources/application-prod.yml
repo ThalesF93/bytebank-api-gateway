@@ -14,51 +14,52 @@ spring:
       discovery:
         locator:
           enabled: true
+          lower-case-service-id: true
 
       routes:
         - id: bytebank-accounts
-          uri: lb://bytebank-accounts
+          uri: lb://BYTEBANK-ACCOUNTS
           predicates:
             - Path=/api/v1/accounts/**
 
         - id: bytebank-customer
-          uri: lb://bytebank-customer
+          uri: lb://BYTEBANK-CUSTOMER
           predicates:
             - Path=/api/v2/customers/**
 
         - id: bytebank-transactions
-          uri: lb://bytebank-transactions
+          uri: lb://BYTEBANK-TRANSACTIONS
           predicates:
             - Path=/api/v1/transactions/**
 
         - id: bytebank-notification
-          uri: lb://bytebank-notification
+          uri: lb://BYTEBANK-NOTIFICATION
           predicates:
             - Path=/api/v1/notifications/**
 
         - id: bytebank-accounts-docs
-          uri: lb://bytebank-accounts
+          uri: lb://BYTEBANK-ACCOUNTS
           predicates:
             - Path=/bytebank-accounts/v3/api-docs
           filters:
             - RewritePath=/bytebank-accounts/v3/api-docs, /v3/api-docs
 
         - id: bytebank-customer-docs
-          uri: lb://bytebank-customer
+          uri: lb://BYTEBANK-CUSTOMER
           predicates:
             - Path=/bytebank-customer/v3/api-docs
           filters:
             - RewritePath=/bytebank-customer/v3/api-docs, /v3/api-docs
 
         - id: bytebank-transactions-docs
-          uri: lb://bytebank-transactions
+          uri: lb://BYTEBANK-TRANSACTIONS
           predicates:
             - Path=/bytebank-transactions/v3/api-docs
           filters:
             - RewritePath=/bytebank-transactions/v3/api-docs, /v3/api-docs
 
         - id: bytebank-notification-docs
-          uri: lb://bytebank-notification
+          uri: lb://BYTEBANK-NOTIFICATION
           predicates:
             - Path=/bytebank-notification/v3/api-docs
           filters:
@@ -69,7 +70,9 @@ eureka:
     service-url:
       defaultZone: ${EUREKA_DEFAULT_ZONE}
   instance:
-    prefer-ip-address: true
+    hostname: ${HOSTNAME}
+    prefer-ip-address: false
+    instance-id: ${spring.application.name}:${HOSTNAME}
 
 management:
   endpoints:
