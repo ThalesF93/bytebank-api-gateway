@@ -1,6 +1,7 @@
 server:
   port: 8080
   shutdown: graceful
+  forward-headers-strategy: framework
 
 spring:
   application:
@@ -11,6 +12,12 @@ spring:
 
   cloud:
     gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
       discovery:
         locator:
           enabled: true
@@ -96,9 +103,12 @@ springdoc:
     urls:
       - name: Accounts Service
         url: /bytebank-accounts/v3/api-docs
+
       - name: Customer Service
         url: /bytebank-customer/v3/api-docs
       - name: Transactions Service
         url: /bytebank-transactions/v3/api-docs
       - name: Notification Service
         url: /bytebank-notification/v3/api-docs
+    display-request-duration: true
+  override-with-generic-response: false
