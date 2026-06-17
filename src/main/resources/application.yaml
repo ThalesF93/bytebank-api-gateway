@@ -12,6 +12,19 @@ spring:
           enabled: true
 
       routes:
+        #Finance-AI-Service
+        - id: finance-ai-audio
+          uri: lb://finance-ai-service
+          predicates:
+            - Path=/api/v1/operations/audio,/api/v1/operations/whatsapp
+          filters:
+            - ResolveUser
+
+        - id: finance-ai-service
+          uri: lb://finance-ai-service
+          predicates:
+            - Path=/api/v1/operations/**
+
         - id: bytebank-accounts
           uri: lb://bytebank-accounts
           predicates:

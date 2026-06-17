@@ -1,4 +1,10 @@
 package br.com.bytebank.apigateway.dto;
 
-public record CustomerResponse() {
+import java.util.UUID;
+
+public record CustomerResponse(
+        UUID uuid,
+        String name,
+        String phone
+) {
 }
