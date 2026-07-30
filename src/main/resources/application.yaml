@@ -73,6 +73,18 @@ spring:
           filters:
             - RewritePath=/bytebank-notification/v3/api-docs, /v3/api-docs
 
+        - id: bytebank-transactions-user-confirmation
+          uri: lb://bytebank-transactions
+          predicates:
+            - Path=/api/v1/transactions/user-confirmation
+          filters:
+            - ResolveUser
+
+        - id: bytebank-transactions
+          uri: lb://bytebank-transactions
+          predicates:
+            - Path=/api/v1/transactions/**
+
 eureka:
   client:
     service-url:
