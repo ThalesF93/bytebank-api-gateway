@@ -12,6 +12,19 @@ spring:
           enabled: true
 
       routes:
+        #Finance-AI-Service
+        - id: finance-ai-audio
+          uri: lb://finance-ai-service
+          predicates:
+            - Path=/api/v1/operations/audio,/api/v1/operations/whatsapp
+          filters:
+            - ResolveUser
+
+        - id: finance-ai-service
+          uri: lb://finance-ai-service
+          predicates:
+            - Path=/api/v1/operations/**
+
         - id: bytebank-accounts
           uri: lb://bytebank-accounts
           predicates:
@@ -59,6 +72,18 @@ spring:
             - Path=/bytebank-notification/v3/api-docs
           filters:
             - RewritePath=/bytebank-notification/v3/api-docs, /v3/api-docs
+
+        - id: bytebank-transactions-user-confirmation
+          uri: lb://bytebank-transactions
+          predicates:
+            - Path=/api/v1/transactions/user-confirmation
+          filters:
+            - ResolveUser
+
+        - id: bytebank-transactions
+          uri: lb://bytebank-transactions
+          predicates:
+            - Path=/api/v1/transactions/**
 
 eureka:
   client:
